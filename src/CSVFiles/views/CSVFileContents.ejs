@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>CSV Upload-Content of CSV File in Table Format</title>
+	<style>
+	body{
+	margin: 0;
+	padding: 0;
+	display: block;
+	/* justify-content: center;
+	align-items: center; */
+	min-height: 91.5vh;
+	font-family: 'Jost', sans-serif;
+	background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+}
+.main{
+	width: 90%;
+	height: 80%;
+	background: red;
+	/* overflow: hidden; */
+	background: url("https://doc-08-2c-docs.googleusercontent.com/docs/securesc/68c90smiglihng9534mvqmq1946dmis5/fo0picsp1nhiucmc0l25s29respgpr4j/1631524275000/03522360960922298374/03522360960922298374/1Sx0jhdpEpnNIydS4rnN4kHSJtU1EyWka?e=view&authuser=0&nonce=gcrocepgbb17m&user=03522360960922298374&hash=tfhgbs86ka6divo3llbvp93mg4csvb38") no-repeat center/ cover;
+	/* border-radius: 10px;
+	box-shadow: 5px 20px 50px #000; */
+	padding-left: 5%;
+    display: flex;
+    justify-content: center;
+}
+label{
+	color: #fff;
+	font-size: 1.8em;
+	justify-content: center;
+	display: flex;
+	margin: 50px;
+	/* padding-right:20%;
+	padding-left: 15%; */
+	font-weight: bold;
+	/* cursor: pointer; */
+	transition: .5s ease-in-out;
+}
+/* input{
+	width: 30%;
+	height: 20px;
+	background: #e0dede;
+	justify-content: center;
+	display: flex;
+	margin: 20px auto;
+	padding: 10px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+}
+button{
+	width: 40%;
+	height: 40px;
+	margin: 30px auto;
+	justify-content: center;
+	display: block;
+	color: #fff;
+	background: #573b8a;
+	font-size: 1em;
+	font-weight: bold;
+	margin-top: 20px;
+	outline: none;
+	border: none;
+	border-radius: 5px;
+	transition: .2s ease-in;
+	cursor: pointer;
+}
+button:hover{
+	background: #6d44b8;
+} */
+/* p{
+    font-weight:800;
+    font-size: 1.1em;
+    color:yellowgreen;
+    text-align:center
+} */
+/* a{
+	color:yellowgreen;
+	font-weight:500;
+    font-size: 1em;
+} */
+td{
+    color:white;
+}
+span{
+    color:yellowgreen;
+}
+table{
+    border:3px solid yellow;
+}
+td{
+    text-align: center;
+}
+.searchBox{
+	padding-left: 37%;
+}
+input{
+	width: 20%;
+}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+	<label>Contents of<span>&nbsp;<%=filename%>&nbsp;</span>in Table Format</label>
+    <br><br>
+	<div class="searchBox">
+		<input id="globalSearch" onkeyup="globalSearch()" type="search" placeholder="Global Table Search">
+		&nbsp;&nbsp;
+		<input id="columnSearch" onkeyup="columnSearch()" type="search" placeholder="Search by <%=filedata[0][1]%>">
+		
+	</div>
+	<br>
+    <div class="main">
+    <table border=1px cellspacing=10px cellpadding=5px> 
+        <thead>
+            <tr>
+                <%filedata[0].forEach((element)=>{%>
+                    <td><%=element%></td>
+                <%});%>
+            </tr>
+        </thead>
+        <tbody>
+            <%let i=1;
+            while(i<=filedata.length-1){%>
+                <tr>
+                    <%let j=0;
+                filedata[i].forEach((data)=>{%>
+					<%if(j==1){%>
+						<td class="secondColumn"><%=data%></td>
+					<%}else{%>
+						<td><%=data%></td>
+					<%}
+                    
+                    j++;
+                });
+                if(j!=filedata[0].length){
+                    while(j<filedata[0].length){
+						if(j==1){%>
+							<td class="secondColumn"></td>
+						<%}else{%>
+							<td></td>
+						<%}
+                        
+                        j++;
+                    }
+                }%>
+                
+                </tr>
+                <%i++;
+            }%>
+        </tbody>
+    </table>
+</div>	
+<script>
+function globalSearch(){
+    let input=document.getElementById('globalSearch').value.toLowerCase();
+    let tableData=document.getElementsByTagName('tr');
+    for(let i=1;i<tableData.length;i++){
+        let count=0;
+        for(let j=0;j<tableData[i].children.length;j++){
+            if(tableData[i].children[j].innerHTML.toLowerCase().includes(input)){
+                count++;
+                break;
+            }
+        }
+        if(!count){
+            tableData[i].style.display = "none";
+        }else{
+			tableData[i].style.display = "";
+		}
+    }
+}
+
+function columnSearch(){
+    let input=document.getElementById('columnSearch').value.toLowerCase();
+    let secondColumnData=document.getElementsByClassName('secondColumn');
+    for(let i=0;i<secondColumnData.length;i++){
+            if(!secondColumnData[i].innerHTML.toLowerCase().includes(input)){
+                secondColumnData[i].parentNode.style.display = "none";
+            }else{
+				secondColumnData[i].parentNode.style.display = "";
+			}
+    
+    }
+}
+</script>
+</body>
+</html>
